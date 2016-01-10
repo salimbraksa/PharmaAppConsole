@@ -44,5 +44,5 @@ void free_handlers(Handlers* handlers) {
 // Helpers Implementation
 
 void resize_handlers(Handlers* handlers) {
-    handlers = realloc(handlers -> handlers_array, sizeof(handlers -> handlers_array) * handlers -> number_of_handlers);
+    handlers -> handlers_array = realloc(handlers -> handlers_array, sizeof(handlers_t) * handlers -> number_of_handlers);
 }
