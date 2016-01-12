@@ -63,6 +63,9 @@ void show_clients_manager_menu(void) {
     // Set selectors
     set_selectors_for_menu(menu, menu -> number_of_rows,
                            show_all_clients,
+                           clients_from_name,
+                           add_client,
+                           edit_client,
                            back);
     
     // Ajouter le menu
@@ -93,6 +96,10 @@ void show_fournisseurs_manager_menu(void) {
     
     // Set selectors
     set_selectors_for_menu(menu, menu -> number_of_rows,
+                           add_fournisseur,
+                           modify_fournisseur,
+                           delete_fournisseur,
+                           show_all_fournisseurs,
                            back);
     
     // Ajouter le menu

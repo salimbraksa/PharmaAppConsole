@@ -7,11 +7,17 @@
 //
 
 #include "client_controller.h"
+#include "sb_file.h"
 
 void save_client(char* filename, Client* client) {
     
     // Avant tout, tester si client n'est pas NULL
     if (!client) return;
+    
+    // Créer le fichier s'il n'existe pas
+    if (!file_exist(filename)) {
+        create_file(filename);
+    }
     
     // Cherche si le médicament existe
     // Si oui, il suffit de modifier le médicament

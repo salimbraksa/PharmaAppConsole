@@ -26,4 +26,7 @@ LinkedList* linked_list_new();
 /// Permet d'ajouter un élément à la liste chainée
 void linked_list_append(LinkedList** list, void* element);
 
+/// Permet de retourner la taille de la liste chainée
+int list_len(LinkedList* list);
+
 #endif /* linked_list_h */

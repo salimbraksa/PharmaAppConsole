@@ -9,8 +9,6 @@
 #include <stdlib.h>
 #include "navigations.h"
 
-#include <stdarg.h>
-
 int main(int argc, const char * argv[]) {
     
     // Initializer la pile des menus

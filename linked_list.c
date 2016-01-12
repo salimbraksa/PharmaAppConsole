@@ -19,6 +19,9 @@ LinkedList* linked_list_new(void* element) {
 
 void linked_list_append(LinkedList** list, void* element) {
     
+    // Do nothing if element is NULL
+    if (!element) return;
+    
     // If *list is NULL, then just create a new one
     if (!(*list)) {
         *list = linked_list_new(element);
@@ -38,5 +41,17 @@ void linked_list_append(LinkedList** list, void* element) {
     // Create new node
     current_node = linked_list_new(element);
     previous_node->next = current_node;
+    
+}
+
+int list_len(LinkedList* list) {
+    
+    int counter = 0;
+    LinkedList* iterator = list;
+    while (iterator) {
+        if (iterator -> data) counter++;
+        iterator = iterator -> next;
+    }
+    return  counter;
     
 }

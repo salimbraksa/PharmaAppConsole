@@ -19,7 +19,7 @@ typedef struct {
     long int fournisseur_id;
     char nom[80];
     char email[100];
-    char telephone[10];
+    char telephone[11];
     
 } Fournisseur;
 
