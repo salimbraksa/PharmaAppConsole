@@ -14,6 +14,7 @@ void show_back_menu();
 
 void show_clients_helper(LinkedList* clients);
 void show_fournisseurs_helper(LinkedList* fournisseurs);
+void show_medicaments_helper(LinkedList* list);
 
 /**
  *** MENU DE GESTION DE CLIENTS
@@ -273,6 +274,151 @@ void delete_fournisseur(void) {
 }
 
 /**
+ *** MENU DE GESTION DE MEDICAMENTS
+ **/
+
+void add_medicament(void) {
+    
+    // Clear
+    system("clear");
+    
+    // User Inputs
+    char nom[80], description[201];
+    int quantite, seuil, nombre_fournisseurs, default_fournisseur_id;
+    double prix;
+    int fournisseurs_ids[MAXIMUM_FOURNISSEURS] = { 0 };
+    
+    printf("Donner le nom du médicament: "); scanf("%s", nom);
+    printf("Donner la description du médicament: "); scanf("%s", description);
+    printf("Donner la quantite du médicament: "); scanf("%d", &quantite);
+    printf("Donner le prix du médicament: "); scanf("%lf", &prix);
+    printf("Donner le seuil du médicament: "); scanf("%d", &seuil);
+    printf("\n");
+    printf("Donner l'id des fournisseurs du médicament ( -1 pour arrêter )\n");
+    
+    // Les fournisseurs du médicament
+    int fournisseur_id;
+    nombre_fournisseurs = 0;
+    for (int i = 0; i < MAXIMUM_FOURNISSEURS; i++) {
+        printf("Donner l'id du %d ème fournisseur: ", i+1);
+        get_integer("", &fournisseur_id);
+        if (fournisseur_id == -1) break;
+        fournisseurs_ids[i] = fournisseur_id;
+        nombre_fournisseurs++;
+    }
+    
+    // Le fournisseur par default et le premier fournisseur entrer
+    default_fournisseur_id = fournisseurs_ids[0];
+    
+    // Creer un fournisseur
+    Medicament* medicament = create_medicament(nom, description, prix, quantite, seuil, nombre_fournisseurs, default_fournisseur_id, fournisseurs_ids);
+    
+    // Sauvegarder le medicament
+    save_medicament(MEDICAMENTS_FILENAME, medicament);
+    
+    // Revenir au menu
+    show_back_menu();
+    
+}
+
+void add_medicament_to_commande(void) {
+    
+    // Clear
+    system("clear");
+    
+    // Chercher le médicament à ajouter
+    int medicament_id;
+    printf("Donner l'id du médicament: ");
+    scanf("%d", &medicament_id);
+    
+    // Constume any pending input
+    getchar();
+    
+    // Medic
+    Medicament* medicament = get_medicament_from_id(MEDICAMENTS_FILENAME, medicament_id);
+    
+    // Afficher les informations du médicament
+    LinkedList* list = NULL;
+    linked_list_append(&list, medicament);
+    show_medicaments_helper(list);
+    free(list);
+    
+    // Revenir
+    show_back_menu();
+    
+}
+
+void medicament_from_id() {
+    
+    // Clear
+    system("clear");
+    
+    // User Input
+    long int medic_id;
+    printf("Donner l'id du médicament: ");
+    scanf("%ld", &medic_id);
+    
+    // Consume any pending input
+    getchar();
+    
+    // Trouver le médicament
+    Medicament* medic = get_medicament_from_id(MEDICAMENTS_FILENAME, medic_id);
+    
+    // Afficher le médicament
+    LinkedList* medics = NULL;
+    linked_list_append(&medics, medic);
+    show_medicaments_helper(medics);
+    free(medics);
+    
+    // Revenir au menu
+    printf("\n");
+    show_back_menu();
+    
+}
+
+void change_default_fournisseur(void) {
+    
+    // Clear
+    system("clear");
+    
+    // User Input
+    long int medic_id;
+    printf("Donner l'id du médicament: ");
+    scanf("%ld", &medic_id);
+    
+    // Consume any pending input
+    getchar();
+    
+    // Trouver le médicament
+    Medicament* medic = get_medicament_from_id(MEDICAMENTS_FILENAME, medic_id);
+    
+    if (medic) {
+        
+        // Afficher les fournisseurs du medic
+        printf("Les ids des fournisseurs du médicament sont: ");
+        for (int i = 0; i < medic -> nombre_fournisseurs; i++) {
+            printf( (i != medic -> nombre_fournisseurs - 1) ? "%d, " : "%d\n", medic -> fournisseurs_ids[i]);
+        }
+        
+        // Afficher l'id du fournisseur par défault
+        printf("L'id du fournisseur par défault est: %ld", medic -> default_fournisseur_id);
+        
+        // Demander au utilisateur de changer l'id du fournisseur
+        int new_id;
+        get_integer("\nChanger l'id du fournisseur par défault: ", &new_id);
+        medic -> default_fournisseur_id = new_id;
+        
+        // Sauvegarder
+        save_medicament(MEDICAMENTS_FILENAME, medic);
+        
+    }
+    
+    // Revenir
+    show_back_menu();
+    
+}
+
+/**
  *** RETOUR & EXIT
  **/
 
@@ -331,6 +477,21 @@ void show_fournisseurs_helper(LinkedList* fournisseurs) {
         Fournisseur* fournisseur = current_fournisseur_list -> data;
         printf("%ld\t%s\t%s\t%s\n", fournisseur -> fournisseur_id, fournisseur -> nom, fournisseur -> email, fournisseur -> telephone);
         current_fournisseur_list = current_fournisseur_list -> next;
+    }
+    
+}
+
+void show_medicaments_helper(LinkedList* medicaments) {
+    
+    // S'il n'existe pas de clients
+    if (!medicaments) { printf("Il n'existe aucun medicaments\n"); }
+    
+    // Itérer
+    LinkedList* current_medicament_list = medicaments;
+    while (current_medicament_list) {
+        Medicament* medicament = current_medicament_list -> data;
+        printf("%ld\t%s\t%d%lf Dhs", medicament -> medicament_id, medicament -> nom, medicament -> quantite, medicament -> prix);
+        current_medicament_list = current_medicament_list -> next;
     }
     
 }

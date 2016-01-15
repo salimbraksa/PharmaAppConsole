@@ -83,7 +83,7 @@ void show_clients_manager_menu(void) {
 void show_fournisseurs_manager_menu(void) {
     
     // Create the menu
-    Menu* menu = create_menu("Fournisseurs", 6, NULL, NULL);
+    Menu* menu = create_menu("Fournisseurs", 5, NULL, NULL);
     
     // Set rows
     set_rows_for_menu(menu, menu -> number_of_rows,
@@ -91,7 +91,6 @@ void show_fournisseurs_manager_menu(void) {
                       "Modifier un fournisseur",
                       "Supprimer un fournisseur",
                       "Afficher la liste de tous les fournisseurs",
-                      "Afficher les fournisseurs d'un médicament",
                       "Retour");
     
     // Set selectors
@@ -117,10 +116,11 @@ void show_fournisseurs_manager_menu(void) {
 void show_medicaments_manager_menu(void) {
     
     // Create the menu
-    Menu* menu = create_menu("Médicaments", 4, NULL, NULL);
+    Menu* menu = create_menu("Médicaments", 5, NULL, NULL);
     
     // Set rows
     set_rows_for_menu(menu, menu -> number_of_rows,
+                      "Ajouter un médicament",
                       "Ajouter un médicament dans une commande",
                       "Chercher un médicament",
                       "Changer le fournisseur",
@@ -128,6 +128,10 @@ void show_medicaments_manager_menu(void) {
     
     // Set selectors
     set_selectors_for_menu(menu, menu -> number_of_rows,
+                           add_medicament,
+                           add_medicament_to_commande,
+                           medicament_from_id,
+                           change_default_fournisseur,
                            back);
     
     // Ajouter le menu

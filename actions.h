@@ -15,6 +15,7 @@
 
 #include "client_controller.h"
 #include "fournisseur_controller.h"
+#include "medicament_controller.h"
 #include "constants.h"
 
 /**
@@ -31,10 +32,19 @@ void edit_client(void);
  **/
 
 void show_all_fournisseurs(void);
-void fournisseur_from_medicament(void);
 void add_fournisseur(void);
 void modify_fournisseur(void);
 void delete_fournisseur(void);
+
+/**
+ *** MENU DE GESTION DE MEDICAMENTS
+ **/
+
+void add_medicament(void);
+void add_medicament_to_commande(void);
+void medicament_from_id();
+void change_default_fournisseur(void);
+void fournisseurs_of_medicament(void);
 
 /**
  *** RETOUR & EXIT
