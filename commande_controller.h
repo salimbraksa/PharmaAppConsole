@@ -15,6 +15,7 @@
 #include "medicament.h"
 #include "commande.h"
 #include "sb_number.h"
+#include "sb_date.h"
 
 /// Permet d'ajouter un médicament à une commande
 void commande_ajouter_medicament(Commande* commande, Medicament* medicament);
@@ -26,7 +27,7 @@ void save_commande(char* filename, Commande* commande);
 Commande* get_last_commande(char* filename);
 
 /// Permet de retourner une liste de commandes d'une date donnée
-LinkedList* get_commandes_from_date(char* filename, char* date);
+LinkedList* get_commandes_from_date(char* filename, char* date, DateComponents ignore_date_components);
 
 /// Permet de commander automatiquement les médicaments qui ont
 /// Une quantité inférieur à leur seuil

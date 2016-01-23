@@ -15,6 +15,8 @@ void show_back_menu();
 void show_clients_helper(LinkedList* clients);
 void show_fournisseurs_helper(LinkedList* fournisseurs);
 void show_medicaments_helper(LinkedList* list);
+void show_commandes_helper(LinkedList* commandes);
+void show_ventes_helper(LinkedList* ventes);
 
 /**
  *** MENU DE GESTION DE CLIENTS
@@ -288,9 +290,9 @@ void add_medicament(void) {
     double prix;
     int fournisseurs_ids[MAXIMUM_FOURNISSEURS] = { 0 };
     
-    printf("Donner le nom du médicament: "); scanf("%s", nom);
-    printf("Donner la description du médicament: "); scanf("%s", description);
-    printf("Donner la quantite du médicament: "); scanf("%d", &quantite);
+    printf("Donner le nom du médicament: "); scanf("%[^\n]%*c", nom);
+    printf("Donner la description du médicament: "); scanf("%[^\n]%*c", description);
+    get_integer("Donner la quantite du médicament: ", &quantite);
     printf("Donner le prix du médicament: "); scanf("%lf", &prix);
     printf("Donner le seuil du médicament: "); scanf("%d", &seuil);
     printf("\n");
@@ -326,22 +328,29 @@ void add_medicament_to_commande(void) {
     // Clear
     system("clear");
     
-    // Chercher le médicament à ajouter
-    int medicament_id;
-    printf("Donner l'id du médicament: ");
-    scanf("%d", &medicament_id);
+    // Prepare Vente fields
+    int number_medics;
+    long int medicaments[VENTE_MAX_MEDICAMENTS_IDS][2];
+    get_integer("Donner le nombre de médicaments à vendre par espèce: ", &number_medics);
+    for (int i = 0; i < number_medics; i++) {
+        
+        int medic_id;
+        long int medic_quantity;
+        
+        printf("\n== Médicament %d ==\n", i+1);
+        get_integer("Id: ", &medic_id);
+        get_integer("Quantité: ", (int*)&medic_quantity);
+        
+        medicaments[i][0] = medic_id;
+        medicaments[i][1] = medic_quantity;
+        
+    }
     
-    // Constume any pending input
-    getchar();
+    // Create vente
+    Commande* commande = create_commande(time(NULL), number_medics, medicaments);
     
-    // Medic
-    Medicament* medicament = get_medicament_from_id(MEDICAMENTS_FILENAME, medicament_id);
-    
-    // Afficher les informations du médicament
-    LinkedList* list = NULL;
-    linked_list_append(&list, medicament);
-    show_medicaments_helper(list);
-    free(list);
+    // Save it
+    save_commande(COMMANDES_FILENAME, commande);
     
     // Revenir
     show_back_menu();
@@ -412,6 +421,145 @@ void change_default_fournisseur(void) {
         save_medicament(MEDICAMENTS_FILENAME, medic);
         
     }
+    
+    // Revenir
+    show_back_menu();
+    
+}
+
+void sell_medicaments(void) {
+    
+    // Clear
+    system("clear");
+    
+    // Prepare Vente fields
+    int number_medics;
+    int medicaments[VENTE_MAX_MEDICAMENTS_IDS][2];
+    get_integer("Donner le nombre de médicaments à vendre par espèce: ", &number_medics);
+    for (int i = 0; i < number_medics; i++) {
+        
+        int medic_id;
+        int medic_quantity;
+        
+        printf("\n== Médicament %d ==\n", i+1);
+        get_integer("Id: ", &medic_id);
+        get_integer("Quantité: ", &medic_quantity);
+        
+        medicaments[i][0] = medic_id;
+        medicaments[i][1] = medic_quantity;
+        
+    }
+    
+    // Create vente
+    Vente* vente = create_vente(time(NULL), number_medics, medicaments);
+    
+    // Save it
+    save_vente(VENTES_FILENAME, vente);
+    
+    // Return
+    show_back_menu();
+    
+}
+
+/**
+ *** MENU DE COMMANDES
+ **/
+
+void commande_from_day(void) {
+    
+    // Clear
+    system("clear");
+    
+    // Demander au utilisateur de donner la date du jour
+    char day[10];
+    printf("Donner la date du jour: ");
+    scanf("%s", day);
+    
+    // Consume any pending input
+    getchar();
+    
+    // Get commande
+    LinkedList* commandes = get_commandes_from_date(COMMANDES_FILENAME, day, None);
+    
+    // Afficher la commande
+    show_commandes_helper(commandes);
+    
+    // Revenir
+    show_back_menu();
+    
+}
+
+void commandes_from_year(void) {
+    
+    // Clear
+    system("clear");
+    
+    // Demander au utilisateur de donner la date du jour
+    char year[4];
+    printf("Donner l'année: ");
+    scanf("%s", year);
+    
+    // Consume any pending input
+    getchar();
+    
+    // Get commande
+    LinkedList* commandes = get_commandes_from_date(COMMANDES_FILENAME, year, Month | Day);
+    
+    // Afficher la commande
+    show_commandes_helper(commandes);
+    
+    // Revenir
+    show_back_menu();
+    
+}
+
+/**
+ *** MENU DE VENTES
+ **/
+
+void vente_from_day(void) {
+    
+    // Clear
+    system("clear");
+    
+    // Demander au utilisateur de donner la date du jour
+    char day[10];
+    printf("Donner la date du jour: ");
+    scanf("%s", day);
+    
+    // Consume any pending input
+    getchar();
+    
+    // Get commande
+    LinkedList* ventes = get_ventes_from_date(VENTES_FILENAME, day, None);
+    
+    // Afficher la commande
+    show_ventes_helper(ventes);
+    
+    // Revenir
+    show_back_menu();
+    
+}
+
+void ventes_from_year(void) {
+    
+    // Clear
+    system("clear");
+    
+    // Demander au utilisateur de donner la date du jour
+    char year[4];
+    printf("Donner l'année: ");
+    scanf("%s", year);
+    printf("\n");
+    
+    // Consume any pending input
+    getchar();
+    
+    // Get commande
+    LinkedList* ventes = get_ventes_from_date(VENTES_FILENAME, year, Month | Day);
+    
+    // Afficher la commande
+    show_ventes_helper(ventes);
     
     // Revenir
     show_back_menu();
@@ -490,8 +638,64 @@ void show_medicaments_helper(LinkedList* medicaments) {
     LinkedList* current_medicament_list = medicaments;
     while (current_medicament_list) {
         Medicament* medicament = current_medicament_list -> data;
-        printf("%ld\t%s\t%d%lf Dhs", medicament -> medicament_id, medicament -> nom, medicament -> quantite, medicament -> prix);
+        printf("%ld\t%s\t%d\t%lf Dhs", medicament -> medicament_id, medicament -> nom, medicament -> quantite, medicament -> prix);
         current_medicament_list = current_medicament_list -> next;
+    }
+    
+}
+
+void show_commandes_helper(LinkedList* commandes) {
+    
+    // S'il n'existe pas de clients
+    if (!commandes) { printf("Il n'existe aucune commande\n"); }
+    
+    // Itérer
+    LinkedList* current_commande_list = commandes;
+    while (current_commande_list) {
+        
+        Commande* commande = current_commande_list -> data;
+        printf("%ld\t", commande -> commande_id);
+        
+        // Afficher chaque médicament
+        for (int i = 0; i < commande -> nombre_medicaments; i++) {
+            
+            long int medic_id = commande -> medicaments[i][0];
+            long int quantity = commande -> medicaments[i][1];
+            Medicament* medicament = get_medicament_from_id(MEDICAMENTS_FILENAME, medic_id);
+            printf("%s x %ld", medicament -> nom, quantity);
+            free(medicament);
+            
+        }
+        
+        current_commande_list = current_commande_list -> next;
+    }
+    
+}
+
+void show_ventes_helper(LinkedList* ventes) {
+    
+    // S'il n'existe pas de clients
+    if (!ventes) { printf("Il n'existe aucune vente\n"); }
+    
+    // Itérer
+    LinkedList* current_vente_list = ventes;
+    while (current_vente_list) {
+        
+        Vente* vente = current_vente_list -> data;
+        printf("%ld\t", vente -> vente_id);
+        
+        // Afficher chaque médicament
+        for (int i = 0; i < vente -> nombre_medicaments; i++) {
+            
+            long int medic_id = vente -> medicaments[i][0];
+            long int quantity = vente -> medicaments[i][1];
+            Medicament* medicament = get_medicament_from_id(MEDICAMENTS_FILENAME, medic_id);
+            printf( (i != vente -> nombre_medicaments - 1) ? "%s x %ld\n\t" : "%s x %ld\n" , medicament -> nom, quantity);
+            free(medicament);
+            
+        }
+        
+        current_vente_list = current_vente_list -> next;
     }
     
 }

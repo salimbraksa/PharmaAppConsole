@@ -74,7 +74,7 @@ Commande* get_last_commande(char* filename) {
     
 }
 
-LinkedList* get_commandes_from_date(char* filename, char* date) {
+LinkedList* get_commandes_from_date(char* filename, char* date, DateComponents ignore_date_components) {
     
     // Ouvrir le fichier
     FILE* flot = fopen(filename, "rb");
@@ -96,9 +96,9 @@ LinkedList* get_commandes_from_date(char* filename, char* date) {
         struct tm user_time;
         strptime(date, "%Y-%m-%d", &user_time);
         
-        if (user_time.tm_year == commande_time.tm_year &&
-            user_time.tm_mon == commande_time.tm_mon &&
-            user_time.tm_mday == commande_time.tm_mday) {
+        if ( ( user_time.tm_year == commande_time.tm_year || (Year & ignore_date_components) ) &&
+              ( user_time.tm_mon == commande_time.tm_mon || (Month & ignore_date_components) ) &&
+              (user_time.tm_mday == commande_time.tm_mday || (Day & ignore_date_components)) ){
             linked_list_append(&commandes, commande);
         } else {
             free(commande);
@@ -160,7 +160,7 @@ void automatically_commande_medicaments() {
         Medicament* medicament = get_medicament_from_id(MEDICAMENTS_FILENAME, medic_id);
         
         // Ajouter le médicament à la commande
-        Commande* next_commande = medicament_add_to_commande(medicament, commande);
+        Commande* next_commande = medicament_add_to_commande(medicament, medicament -> seuil, commande);
         
         // Si ...
         if (next_commande) {

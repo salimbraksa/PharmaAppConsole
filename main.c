@@ -11,6 +11,9 @@
 
 int main(int argc, const char * argv[]) {
     
+    // Commander des medicaments automatiquement
+    automatically_commande_medicaments();
+    
     // Initializer la pile des menus
     stack_menus = new_stack();
     

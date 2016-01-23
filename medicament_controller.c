@@ -161,7 +161,7 @@ LinkedList* get_fournisseurs_from_medicament(char* filename, long int medicament
     
 }
 
-Commande* medicament_add_to_commande(Medicament* medicament, Commande* commande) {
+Commande* medicament_add_to_commande(Medicament* medicament, int quantity, Commande* commande) {
     
     // Ne rien faire si l'un des deux arguments est NULL ( medicament ou commande )
     if (!medicament || !commande) return NULL;
@@ -182,7 +182,7 @@ Commande* medicament_add_to_commande(Medicament* medicament, Commande* commande)
     
     // Ajouter l'id du médicament et initializer sa quantité par 1
     use_commande -> medicaments[use_commande->nombre_medicaments-1][0] = medicament -> medicament_id;
-    use_commande -> medicaments[use_commande->nombre_medicaments-1][1] = medicament -> seuil;
+    use_commande -> medicaments[use_commande->nombre_medicaments-1][1] = quantity;
     
     // Si la on utiliser une nouvelle commande, on doit la retourner
     if (use_commande -> commande_id != commande -> commande_id) return use_commande;

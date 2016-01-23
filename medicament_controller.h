@@ -24,7 +24,7 @@ void save_medicament(char* filename, Medicament* medicament);
 /// Si cette commande a suffisament d'espace pour contenir
 /// Le médicament, sinon on crée une nouvelle commande
 /// Pour contenir le médicament et l'a retourne
-Commande* medicament_add_to_commande(Medicament* medicament, Commande* commande);
+Commande* medicament_add_to_commande(Medicament* medicament, int quantity, Commande* commande);
 
 /// Permet de retourner le dernier medicament qui peut être NULL
 Medicament* get_last_medicament(char* filename);

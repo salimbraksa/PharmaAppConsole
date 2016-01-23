@@ -116,12 +116,13 @@ void show_fournisseurs_manager_menu(void) {
 void show_medicaments_manager_menu(void) {
     
     // Create the menu
-    Menu* menu = create_menu("Médicaments", 5, NULL, NULL);
+    Menu* menu = create_menu("Médicaments", 6, NULL, NULL);
     
     // Set rows
     set_rows_for_menu(menu, menu -> number_of_rows,
                       "Ajouter un médicament",
                       "Ajouter un médicament dans une commande",
+                      "Vendre des médicaments",
                       "Chercher un médicament",
                       "Changer le fournisseur",
                       "Retour");
@@ -130,6 +131,7 @@ void show_medicaments_manager_menu(void) {
     set_selectors_for_menu(menu, menu -> number_of_rows,
                            add_medicament,
                            add_medicament_to_commande,
+                           sell_medicaments,
                            medicament_from_id,
                            change_default_fournisseur,
                            back);
@@ -149,15 +151,18 @@ void show_medicaments_manager_menu(void) {
 void show_commandes_manager_menu(void) {
     
     // Create the menu
-    Menu* menu = create_menu("Commandes", 2, NULL, NULL);
+    Menu* menu = create_menu("Commandes", 3, NULL, NULL);
     
     // Set rows
     set_rows_for_menu(menu, menu -> number_of_rows,
-                      "Lister une commande d'une date",
+                      "Lister une commande d'une journée",
+                      "Lister les commandes d'une année",
                       "Retour");
     
     // Set selectors
     set_selectors_for_menu(menu, menu -> number_of_rows,
+                           commande_from_day,
+                           commandes_from_year,
                            back);
     
     // Ajouter le menu
@@ -179,12 +184,14 @@ void show_rapport_journalier_menu(void) {
     
     // Set rows
     set_rows_for_menu(menu, menu -> number_of_rows,
-                      "D'une journée",
-                      "D'une année",
+                      "Lister une vente d'une journée",
+                      "Lister les ventes d'une année",
                       "Retour");
     
     // Set selectors
     set_selectors_for_menu(menu, menu -> number_of_rows,
+                           vente_from_day,
+                           ventes_from_year,
                            back);
     
     // Ajouter le menu

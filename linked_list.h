@@ -29,4 +29,7 @@ void linked_list_append(LinkedList** list, void* element);
 /// Permet de retourner la taille de la liste chainée
 int list_len(LinkedList* list);
 
+/// Permet de retourner un élément par son index
+void* element_from_index(LinkedList* list, int index);
+
 #endif /* linked_list_h */

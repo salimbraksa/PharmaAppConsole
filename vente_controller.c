@@ -107,6 +107,7 @@ LinkedList* get_ventes_from_date(char* filename, char* date, DateComponents igno
         
         Vente* vente = (Vente*)malloc(sizeof(Vente));
         if(!fread(vente, sizeof(Vente), 1, flot)) break;
+        if (vente -> vente_id == 0) break;
         
         // Ajouter que les ventes dont la date égale à
         // La date donnée par l'utilisateur
@@ -114,9 +115,9 @@ LinkedList* get_ventes_from_date(char* filename, char* date, DateComponents igno
         struct tm user_time;
         strptime(date, "%Y-%m-%d", &user_time);
         
-        if ( (( user_time.tm_year == vente_time.tm_year || (Year && ignore_date_components) ) &&
-            ( user_time.tm_mon == vente_time.tm_mon || (Month && ignore_date_components) ) &&
-            user_time.tm_mday == vente_time.tm_mday) || (Day && ignore_date_components) ) {
+        if ( (( user_time.tm_year == vente_time.tm_year || (Year & ignore_date_components) ) &&
+            ( user_time.tm_mon == vente_time.tm_mon || (Month & ignore_date_components) ) &&
+            user_time.tm_mday == vente_time.tm_mday) || (Day & ignore_date_components) ) {
             linked_list_append(&ventes, vente);
         }
         

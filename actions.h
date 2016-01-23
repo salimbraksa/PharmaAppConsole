@@ -12,11 +12,7 @@
 #include <stdio.h>
 
 #include "menu_controller.h"
-
-#include "client_controller.h"
-#include "fournisseur_controller.h"
-#include "medicament_controller.h"
-#include "constants.h"
+#include "api.h"
 
 /**
  *** MENU DE GESTION DE CLIENTS
@@ -45,6 +41,21 @@ void add_medicament_to_commande(void);
 void medicament_from_id();
 void change_default_fournisseur(void);
 void fournisseurs_of_medicament(void);
+void sell_medicaments(void);
+
+/**
+ *** MENU DE COMMANDES
+ **/
+
+void commande_from_day(void);
+void commandes_from_year(void);
+
+/**
+ *** MENU DE VENTES
+ **/
+
+void vente_from_day(void);
+void ventes_from_year(void);
 
 /**
  *** RETOUR & EXIT

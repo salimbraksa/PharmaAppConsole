@@ -55,3 +55,17 @@ int list_len(LinkedList* list) {
     return  counter;
     
 }
+
+void* element_from_index(LinkedList* list, int index) {
+    
+    LinkedList* iterator = list;
+    int count = 0;
+    while (iterator) {
+        if (count == index) break;
+        iterator = iterator -> next;
+    }
+    
+    if (iterator) return iterator -> data;
+    return NULL;
+    
+}
