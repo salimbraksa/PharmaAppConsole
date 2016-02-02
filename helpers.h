@@ -21,4 +21,7 @@ void sb_strcpy(char** destination, char* source);
 /// Permet de lire un entier
 int get_integer(const char* prompt, int *i);
 
+/// Permet de lire un long entier
+int get_long_integer(const char* prompt, long int*i);
+
 #endif /* helpers_h */

@@ -35,3 +35,21 @@ int get_integer(const char* prompt, int *i) {
     return 0;
     
 }
+
+int get_long_integer(const char* prompt, long int *i) {
+    
+    int invalid = 0;
+    int end_index;
+    char buffer[100];
+    
+    do {
+        
+        invalid = 1;
+        fputs(prompt, stdout);
+        if (NULL == fgets(buffer, sizeof(buffer), stdin)) return 1;
+        errno = 0;
+        
+    } while ((1 != sscanf(buffer, "%ld %n", i, &end_index)) || buffer[end_index] || errno);
+    return 0;
+    
+}

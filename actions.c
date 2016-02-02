@@ -177,7 +177,7 @@ void add_fournisseur(void) {
     
     // User Inputs
     char nom[80], email[100], telephone[11];
-    printf("Donner le nom du fournisseur: "); scanf("%s", nom);
+    printf("Donner le nom du fournisseur: "); scanf("%[^\n]%*c", nom);
     printf("Donner l'email du fournisseur: "); scanf("%s", email);
     printf("Donner le telephone du fournisseur: "); scanf("%s", telephone);
     
@@ -218,7 +218,7 @@ void modify_fournisseur(void) {
         
         // User Inputs
         char nom[80], email[100], telephone[11];
-        printf("\nDonner le nom du fournisseur: "); scanf("%s", nom);
+        printf("\nDonner le nom du fournisseur: "); scanf("%[^\n]%*c", nom);
         printf("Donner l'email du fournisseur: "); scanf("%s", email);
         printf("Donner le telephone du fournisseur: "); scanf("%s", telephone);
         
@@ -332,7 +332,7 @@ void add_medicament_to_commande(void) {
         
         printf("\n== Médicament %d ==\n", i+1);
         get_integer("Id: ", &medic_id);
-        get_integer("Quantité: ", (int*)&medic_quantity);
+        get_long_integer("Quantité: ", &medic_quantity);
         
         medicaments[i][0] = medic_id;
         medicaments[i][1] = medic_quantity;
@@ -490,10 +490,7 @@ void commandes_from_year(void) {
     // Demander au utilisateur de donner la date du jour
     char year[4];
     printf("Donner l'année: ");
-    scanf("%s", year);
-    
-    // Consume any pending input
-    getchar();
+    scanf("%[^\n]%*c", year);
     
     // Get commande
     LinkedList* commandes = get_commandes_from_date(COMMANDES_FILENAME, year, Month | Day);
@@ -542,11 +539,8 @@ void ventes_from_year(void) {
     // Demander au utilisateur de donner la date du jour
     char year[4];
     printf("Donner l'année: ");
-    scanf("%s", year);
+    scanf("%[^\n]%*c", year);
     printf("\n");
-    
-    // Consume any pending input
-    getchar();
     
     // Get commande
     LinkedList* ventes = get_ventes_from_date(VENTES_FILENAME, year, Month | Day);
@@ -647,6 +641,13 @@ void show_commandes_helper(LinkedList* commandes) {
     while (current_commande_list) {
         
         Commande* commande = current_commande_list -> data;
+        
+        // Ne pas afficher les commandes don't le nombre de médics est 0
+        if (commande -> nombre_medicaments == 0) {
+            current_commande_list = current_commande_list -> next;
+            continue;
+        }
+        
         printf("%ld\t", commande -> commande_id);
         
         // Afficher chaque médicament
@@ -655,7 +656,7 @@ void show_commandes_helper(LinkedList* commandes) {
             long int medic_id = commande -> medicaments[i][0];
             long int quantity = commande -> medicaments[i][1];
             Medicament* medicament = get_medicament_from_id(MEDICAMENTS_FILENAME, medic_id);
-            printf("%s x %ld", medicament -> nom, quantity);
+            printf( (i != commande -> nombre_medicaments - 1) ? "%s x %ld\n\t" : "%s x %ld\n" , medicament -> nom, quantity);
             free(medicament);
             
         }

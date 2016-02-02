@@ -96,9 +96,11 @@ LinkedList* get_commandes_from_date(char* filename, char* date, DateComponents i
         struct tm user_time;
         strptime(date, "%Y-%m-%d", &user_time);
         
-        if ( ( user_time.tm_year == commande_time.tm_year || (Year & ignore_date_components) ) &&
-              ( user_time.tm_mon == commande_time.tm_mon || (Month & ignore_date_components) ) &&
-              (user_time.tm_mday == commande_time.tm_mday || (Day & ignore_date_components)) ){
+        int verify_year = user_time.tm_year == commande_time.tm_year || (Year & ignore_date_components);
+        int verify_month = user_time.tm_mon == commande_time.tm_mon || (Month & ignore_date_components);
+        int verify_day = user_time.tm_mday == commande_time.tm_mday || (Day & ignore_date_components);
+        
+        if (verify_day && verify_month && verify_year) {
             linked_list_append(&commandes, commande);
         } else {
             free(commande);
