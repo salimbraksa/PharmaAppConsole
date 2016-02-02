@@ -46,10 +46,7 @@ void clients_from_name(void) {
     // User input
     char name[100];
     printf("Donner le nom du client: ");
-    scanf("%s", name);
-    
-    // Consume any pending input
-    getchar();
+    scanf("%[^\n]%*c", name);
     
     // Get client from user input
     LinkedList* clients = get_client_from_name(CLIENTS_FILENAME, name);
@@ -69,7 +66,7 @@ void add_client(void) {
     
     // User Inputs
     char nom[80], telephone[11], cin[9];
-    printf("Donner le nom du client: "); scanf("%s", nom);
+    printf("Donner le nom du client: "); scanf("%[^\n]%*c", nom);
     printf("Donner le telephone du client: "); scanf("%s", telephone);
     printf("Donner le cin du client: "); scanf("%s", cin);
     
@@ -95,10 +92,7 @@ void edit_client(void) {
     // Chercher le nom du client
     char name[100];
     printf("Donner le nom du client: ");
-    scanf("%s", name);
-    
-    // Consume any pending input
-    getchar();
+    scanf("%[^\n]%*c", name);
     
     // Get clients from user input
     LinkedList* clients = get_client_from_name(CLIENTS_FILENAME, name);
@@ -126,7 +120,6 @@ void edit_client(void) {
     LinkedList* iterator = clients;
     for (int i = 0; i < clients_len; i++) {
         if ( ((Client*)iterator -> data) -> client_id == user_id ) {
-            printf("Im Up\n");
             client = (Client*)iterator -> data;
             break;
         }
@@ -139,7 +132,7 @@ void edit_client(void) {
         
         // User Inputs
         char nom[80], telephone[11], cin[9];
-        printf("\nDonner le nouveau nom du client: "); scanf("%s", nom);
+        printf("\nDonner le nouveau nom du client: "); scanf("%[^\n]%*c", nom);
         printf("Donner le nouveau telephone du client: "); scanf("%s", telephone);
         printf("Donner le nouveau cin du client: "); scanf("%s", cin);
         
