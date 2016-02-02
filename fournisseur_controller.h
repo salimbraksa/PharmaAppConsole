@@ -22,12 +22,12 @@ void save_fournisseur(char* filename, Fournisseur* fournisseur);
 Fournisseur* get_last_fournisseur(char* filename);
 
 /// Permet de retourner un fournisseur par son id
-Fournisseur* get_fournisseur_from_id(char* filename, long int fournisseur_id);
+Fournisseur* get_fournisseur_from_id(char* filename, int fournisseur_id);
 
 /// Permet de charger tout les fournisseurs à partir d'un fichier
 LinkedList* get_fournisseurs(char* filename);
 
 /// Permet de supprimer un fournisseur
-void remove_fournisseur(char* filename, long int fournisseur_id);
+void remove_fournisseur(char* filename, int fournisseur_id);
 
 #endif /* fournisseur_controller_h */

@@ -116,12 +116,13 @@ void show_fournisseurs_manager_menu(void) {
 void show_medicaments_manager_menu(void) {
     
     // Create the menu
-    Menu* menu = create_menu("Médicaments", 6, NULL, NULL);
+    Menu* menu = create_menu("Médicaments", 7, NULL, NULL);
     
     // Set rows
     set_rows_for_menu(menu, menu -> number_of_rows,
                       "Ajouter un médicament",
                       "Ajouter un médicament dans une commande",
+                      "Afficher les fournisseurs d'un médicament",
                       "Vendre des médicaments",
                       "Chercher un médicament",
                       "Changer le fournisseur",
@@ -131,6 +132,7 @@ void show_medicaments_manager_menu(void) {
     set_selectors_for_menu(menu, menu -> number_of_rows,
                            add_medicament,
                            add_medicament_to_commande,
+                           show_fournisseur_medicaments,
                            sell_medicaments,
                            medicament_from_id,
                            change_default_fournisseur,

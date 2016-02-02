@@ -47,7 +47,7 @@ void save_fournisseur(char* filename, Fournisseur* fournisseur) {
     } while (1);
     
     // Set nouveau id
-    long int new_id = get_last_fournisseur(filename) -> fournisseur_id + 1;
+    int new_id = get_last_fournisseur(filename) -> fournisseur_id + 1;
     fournisseur -> fournisseur_id = new_id;
     
     // Sauvegarder la commande
@@ -103,7 +103,7 @@ LinkedList* get_fournisseurs(char* filename) {
     
 }
 
-Fournisseur* get_fournisseur_from_id(char* filename, long int fournisseur_id) {
+Fournisseur* get_fournisseur_from_id(char* filename, int fournisseur_id) {
     
     // Ouvrir le fichier
     FILE* flot = fopen(filename, "rb");
@@ -124,7 +124,7 @@ Fournisseur* get_fournisseur_from_id(char* filename, long int fournisseur_id) {
     
 }
 
-void remove_fournisseur(char* filename, long int fournisseur_id) {
+void remove_fournisseur(char* filename, int fournisseur_id) {
     
     // Declare files
     FILE* origin_file = fopen(filename, "rb");

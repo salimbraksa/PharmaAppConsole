@@ -40,7 +40,7 @@ void add_medicament(void);
 void add_medicament_to_commande(void);
 void medicament_from_id();
 void change_default_fournisseur(void);
-void fournisseurs_of_medicament(void);
+void show_fournisseur_medicaments(void);
 void sell_medicaments(void);
 
 /**

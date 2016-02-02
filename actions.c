@@ -205,6 +205,9 @@ void modify_fournisseur(void) {
     printf("Donner l'id du fournisseur: ");
     scanf("%d", &fournisseur_id);
     
+    // Constume any pending input
+    getchar();
+    
     // Get fournisseur from user input
     Fournisseur* fournisseur = get_fournisseur_from_id(FOURNISSEURS_FILENAME, fournisseur_id);
     
@@ -420,6 +423,50 @@ void change_default_fournisseur(void) {
     
 }
 
+void show_fournisseur_medicaments(void) {
+    
+    
+    // Clear
+    system("clear");
+    
+    // User Input
+    long int medic_id;
+    printf("Donner l'id du médicament: ");
+    scanf("%ld", &medic_id);
+    
+    // Consume any pending input
+    getchar();
+    
+    // Trouver le médicament
+    Medicament* medic = get_medicament_from_id(MEDICAMENTS_FILENAME, medic_id);
+    
+    // Affichage des fournisseurs du médicaments
+    if (medic && medic -> nombre_fournisseurs != 0) {
+        
+        printf("Les fournisseurs de ce médicament sont: \n");
+        
+        for (int i = 0; i < medic -> nombre_fournisseurs; i++) {
+            
+            // Id du fournisseur
+            int fournisseur_id = medic -> fournisseurs_ids[i];
+            
+            // Charger le fournisseur
+            Fournisseur* fournisseur = get_fournisseur_from_id(FOURNISSEURS_FILENAME, fournisseur_id);
+            
+            // Afficher le fournisseur
+            printf("%d\t%s\n", fournisseur -> fournisseur_id, fournisseur -> nom);
+            
+        }
+        
+    } else {
+        printf("Ce médicament n'existe pas, ou il n'a pas de fournisseur.\n");
+    }
+    
+    // Revenir
+    show_back_menu();
+    
+}
+
 void sell_medicaments(void) {
     
     // Clear
@@ -610,7 +657,7 @@ void show_fournisseurs_helper(LinkedList* fournisseurs) {
     LinkedList* current_fournisseur_list = fournisseurs;
     while (current_fournisseur_list) {
         Fournisseur* fournisseur = current_fournisseur_list -> data;
-        printf("%ld\t%s\t%s\t%s\n", fournisseur -> fournisseur_id, fournisseur -> nom, fournisseur -> email, fournisseur -> telephone);
+        printf("%d\t%s\t%s\t%s\n", fournisseur -> fournisseur_id, fournisseur -> nom, fournisseur -> email, fournisseur -> telephone);
         current_fournisseur_list = current_fournisseur_list -> next;
     }
     

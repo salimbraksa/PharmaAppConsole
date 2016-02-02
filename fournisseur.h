@@ -16,7 +16,7 @@
 /// Définition de la structure Fournisser
 typedef struct {
     
-    long int fournisseur_id;
+    int fournisseur_id;
     char nom[80];
     char email[100];
     char telephone[11];
